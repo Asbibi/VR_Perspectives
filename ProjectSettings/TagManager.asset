@@ -15,10 +15,10 @@ TagManager:
   - VR_Body
   - VR_Hand
   - VR_Grabable
-  - 
-  - 
-  - 
-  - 
+  - BS_Box
+  - BS_Saber
+  - BS_Fragment
+  - VR_Button
   - 
   - 
   - 

@@ -12,6 +12,9 @@ public class VR_Hand : MonoBehaviour
     //[SerializeField] private float rotateSpeed = 100f;
     [SerializeField] private Vector3 positionOffset;
     [SerializeField] private Vector3 rotationOffset;
+
+    [Header("Grabbing")]
+    [SerializeField] private bool GrabEnable = true;
     [SerializeField] private Transform palm;
     [SerializeField] private float reachDistance = 0.1f;
     [SerializeField] private float joinDistance = 0.05f;
@@ -70,6 +73,9 @@ public class VR_Hand : MonoBehaviour
 
     private void Grab(InputAction.CallbackContext context)
     {
+        if (!GrabEnable)
+            return;
+
         if (isGrabbing || _heldObject)
             return;
 
@@ -159,6 +165,9 @@ public class VR_Hand : MonoBehaviour
 
     private void Release(InputAction.CallbackContext context)
     {
+        if (!GrabEnable)
+            return;
+
         if (joint1 != null)
             Destroy(joint1);
         if (joint2 != null)
