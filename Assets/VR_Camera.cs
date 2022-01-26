@@ -5,11 +5,11 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Camera)), RequireComponent(typeof(AudioListener))]
 public class VR_Camera : MonoBehaviour
 {
-    [SerializeField] protected string name;
+    [SerializeField] protected string camName;
     [SerializeField] protected RawImage UI_Projection;
     private AudioListener audioListener;
 
-    private void Start()
+    private void Awake()
     {
         audioListener = GetComponent<AudioListener>();
     }
@@ -19,8 +19,9 @@ public class VR_Camera : MonoBehaviour
         UI_Projection.gameObject.SetActive(active);
         audioListener.enabled = active;
         if (active && cameraSelector != null)
-            cameraSelector.SetText(name);
+            cameraSelector.SetText(camName);
     }
+    public virtual void EditCam(Vector2 _input) { }
 
     public bool IsActive()
     {

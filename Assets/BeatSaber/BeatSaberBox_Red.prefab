@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: fd3968a8345db4d47956688b2d39a5c8, type: 3}
+    - target: {fileID: 5007677102522575062, guid: e39a30fd67d505d4580ec5f79165cd7a, type: 3}
+      propertyPath: ditherMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 25affb372ac4e9d4c8b516ebfcabe2dc, type: 2}
     - target: {fileID: 5058266474039157800, guid: e39a30fd67d505d4580ec5f79165cd7a, type: 3}
       propertyPath: m_Name
       value: BeatSaberBox_Red
@@ -68,12 +72,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 9f16d3f169d9adb4eb7c982fb3ff9d35, type: 2}
     - target: {fileID: 8818510893923524124, guid: e39a30fd67d505d4580ec5f79165cd7a, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8818510893923524124, guid: e39a30fd67d505d4580ec5f79165cd7a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b1912e79858489444b2d73a2b4a78b3c, type: 2}
     - target: {fileID: 8818510893923524124, guid: e39a30fd67d505d4580ec5f79165cd7a, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 9f16d3f169d9adb4eb7c982fb3ff9d35, type: 2}
+      objectReference: {fileID: 2100000, guid: b1912e79858489444b2d73a2b4a78b3c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e39a30fd67d505d4580ec5f79165cd7a, type: 3}

@@ -614,9 +614,25 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Block",
+                    "type": "Button",
+                    "id": "59514703-935e-4f21-a673-b68ef4fbf7b2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "ChangeCam",
                     "type": "Button",
                     "id": "03daec79-55dc-4d91-a5c5-5bb19ef3bdb8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "EditCam",
+                    "type": "Button",
+                    "id": "b2076efb-b013-4d40-8fe0-4aef4913b8e2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -945,11 +961,33 @@
                 {
                     "name": "",
                     "id": "16adf181-cc6e-429b-bb3e-465364fc8ef1",
-                    "path": "<XRController>{RightHand}/secondaryButton",
+                    "path": "<XRController>{LeftHand}/secondaryButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "ChangeCam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "128c6c99-7805-4b3a-afad-8467b1a4ff50",
+                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EditCam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9bf1415b-9232-459b-8250-b484bb7a5e05",
+                    "path": "<XRController>{RightHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Block",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

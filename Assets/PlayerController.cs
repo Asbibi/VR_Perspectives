@@ -14,27 +14,30 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int jumpForce = 500;
 
 
-    [Header("Reset Cam")]
-    //[SerializeField] private InputActionReference resetCamOffsetActionreference;
-    [SerializeField] private Transform playerOffset;
-    [SerializeField] private Transform projector;
-    [SerializeField] private Vector3 projectorOffset;
-    //[SerializeField] private Vector3 projectorRotation;
+    [Header("Block")]
+    [SerializeField] private InputActionReference blockActionReference;
+    [SerializeField] private GameObject blockLocomotionUI;
+    private bool isLocomotionBlocked = false;
+    private Vector3 rigCameraForward = Vector3.zero; 
 
 
-    [Header("Change Cam")]
+    [Header("Camera")]
     [SerializeField] private InputActionReference changeCamActionreference;
+    [SerializeField] private InputActionReference setCamActionreference;
     [SerializeField] private InputActionReference selectCamActionreference;
     [SerializeField] private ActionBasedContinuousMoveProvider moveProvider;
     [SerializeField] private VR_Camera[] projectorCameras;
     [SerializeField] private CamSelectorUI changeCamHandUI;
+    [SerializeField] private GameObject editCamHandUI;
     private bool isChangingCamera = false;
+    private bool isEditingCamera = false;
+    private int selectedCam = 0;
 
 
     private XRRig xrRig;
     private Rigidbody body;
     private CapsuleCollider controllerCollider;
-    private bool isGrounded;// => Physics.Raycast(new Vector2(transform.position.x, transform.position.y + 2.0f), Vector3.down, 2.0f);
+    private bool isGrounded;
 
     // Start is called before the first frame update
     void Start()
@@ -43,19 +46,24 @@ public class PlayerController : MonoBehaviour
         xrRig = GetComponent<XRRig>();
         controllerCollider = GetComponent<CapsuleCollider>();
         jumpActionreference.action.performed += OnJump;
-        //resetCamOffsetActionreference.action.performed += OnResetCam;
+        blockActionReference.action.performed += OnBlockLocomotion;
         changeCamActionreference.action.performed += OnChangeCam;
+        setCamActionreference.action.performed += OnEditCam;
         selectCamActionreference.action.performed += ComputeChangeCam;
-        projectorCameras[0].Activate(true);
+        selectCamActionreference.action.performed += ComputeEditCam;
+        projectorCameras[selectedCam].Activate(true);
     }
 
     void Update()
     {
-        checkIsGrounded();
+        if (isLocomotionBlocked)
+            xrRig.MatchRigUpCameraForward(Vector3.up, rigCameraForward);        
+        else
+            checkIsGrounded();
+
         var center = xrRig.cameraInRigSpacePos;
         controllerCollider.center = new Vector3(center.x, controllerCollider.center.y, center.z);
         controllerCollider.height = xrRig.cameraInRigSpaceHeight;
-        //OnResetCam();
     }
 
     private void OnJump(InputAction.CallbackContext obj)
@@ -64,19 +72,42 @@ public class PlayerController : MonoBehaviour
             return;
         body.AddForce(Vector3.up * jumpForce);
     }
-
-    private void OnResetCam()   //(InputAction.CallbackContext obj)
+    private void OnBlockLocomotion(InputAction.CallbackContext obj)
     {
-        Vector3 camPos = playerOffset.localPosition;
-        camPos.y = 0;
-        projector.localPosition = camPos + projectorOffset;
+        if (isChangingCamera || isEditingCamera)
+            return;
+
+        isLocomotionBlocked = !isLocomotionBlocked;
+        blockLocomotionUI.SetActive(isLocomotionBlocked);
+        moveProvider.enabled = isLocomotionBlocked;
+        if (!isLocomotionBlocked)
+            return;
+
+        rigCameraForward = xrRig.cameraGameObject.transform.forward;
+        isGrounded = false;
     }
 
     private void OnChangeCam(InputAction.CallbackContext obj)
     {
+        if (isEditingCamera)
+            OnEditCam(obj);
+        else if (isLocomotionBlocked)
+            OnBlockLocomotion(obj);
+
         moveProvider.enabled = isChangingCamera;
         isChangingCamera = !isChangingCamera;
         changeCamHandUI.gameObject.SetActive(isChangingCamera);
+    }
+    private void OnEditCam(InputAction.CallbackContext obj)
+    {
+        if (isChangingCamera)
+            return;
+        if (isLocomotionBlocked)
+            OnBlockLocomotion(obj);
+
+        moveProvider.enabled = isEditingCamera;
+        isEditingCamera = !isEditingCamera;
+        editCamHandUI.SetActive(isEditingCamera);
     }
 
     private void ComputeChangeCam(InputAction.CallbackContext context)
@@ -91,13 +122,20 @@ public class PlayerController : MonoBehaviour
         float angle = Vector2.SignedAngle(axis, Vector2.right);
         changeCamHandUI.SetAngle(angle);
         float stepAngle = 360 / projectorCameras.Length;
-        int selectedCam = 0;
+        selectedCam = 0;
         while (angle > -180 + (selectedCam + 1) * stepAngle)
             selectedCam++;
 
         foreach (VR_Camera image in projectorCameras)
             image.Activate(false);
         projectorCameras[selectedCam].Activate(true, changeCamHandUI);
+    }
+    private void ComputeEditCam(InputAction.CallbackContext context)
+    {
+        if (!isEditingCamera)
+            return;
+
+        projectorCameras[selectedCam].EditCam(context.ReadValue<Vector2>());
     }
 
     private void checkIsGrounded()

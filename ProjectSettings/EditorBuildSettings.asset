@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BeatSaber.unity
     guid: 2f50c5b5cfb1dde45b6afe75a64f27a5
+  - enabled: 1
+    path: Assets/Scenes/HumanFallFlat.unity
+    guid: d262972c01659ba4e9950114b005f84d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: f34de65a8ab4c064cb5325435dae9ca6, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 277ca9b439426744881b36d66a6c7e80, type: 2}

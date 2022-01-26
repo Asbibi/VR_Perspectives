@@ -9,4 +9,9 @@ public class MainSceneManager : MonoBehaviour
     {
         SceneManager.LoadScene("BeatSaber");
     }
+
+    public void LoadHumanFallFlatScene()
+    {
+        SceneManager.LoadScene("HumanFallFlat");
+    }
 }

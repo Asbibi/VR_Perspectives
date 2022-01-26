@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class BS_Saber : MonoBehaviour
 {
+    private MeshRenderer meshRend;
+    private Material initialMaterial;
+    public Material greenMaterial;
     public bool isBlue;
-    private Transform tip;
-    public Vector3 GetTipPosition() { return tip.position; }
 
     private void Start()
     {
-        tip = transform.GetChild(0);
+        meshRend = GetComponent<MeshRenderer>();
+        initialMaterial = meshRend.material;
+    }
+
+    public void SetMaterial(bool _green)
+    {
+        if (_green)
+            meshRend.material = greenMaterial;
+        else
+            meshRend.material = initialMaterial;
     }
 }

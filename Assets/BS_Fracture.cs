@@ -7,6 +7,8 @@ public class BS_Fracture : MonoBehaviour
 {
     [SerializeField] private float duration = 0.5f;
     [SerializeField] private bool isBlue = true;
+    [SerializeField] private bool isGreen = true;
+    [SerializeField] private bool isFail = false;
 
     private BS_Manager manager;
     private AudioSource audio;
@@ -55,6 +57,6 @@ public class BS_Fracture : MonoBehaviour
         audio.Play();
         yield return new WaitForSeconds(duration);
         gameObject.SetActive(false);
-        manager.DespawnFracture(this, isBlue);
+        manager.DespawnFracture(this, isBlue, isFail, isGreen);
     }
 }

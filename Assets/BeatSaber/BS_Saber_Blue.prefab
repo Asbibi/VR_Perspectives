@@ -139,4 +139,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d409ea53c8b3b449ac9126a3590790f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  greenMaterial: {fileID: 2100000, guid: a952654e96707414f9403658708fe616, type: 2}
   isBlue: 1
