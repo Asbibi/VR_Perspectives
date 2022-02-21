@@ -21,7 +21,7 @@ public class VR_Camera : MonoBehaviour
         if (active && cameraSelector != null)
             cameraSelector.SetText(camName);
     }
-    public virtual void EditCam(Vector2 _input) { }
+    public virtual bool EditCam(Vector2 _input) { return true; }    // returns if the edit mode should be exit
 
     public bool IsActive()
     {

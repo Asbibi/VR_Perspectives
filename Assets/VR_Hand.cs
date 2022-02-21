@@ -87,6 +87,7 @@ public class VR_Hand : MonoBehaviour
         if (objectToGrab == null)
             return;
 
+        ExternalRelease(); // Fix ?
         Rigidbody objectBody = objectToGrab.GetComponent<Rigidbody>();
 
         if (objectBody != null)
@@ -106,6 +107,7 @@ public class VR_Hand : MonoBehaviour
             }
         }
 
+        isGrabbing = true;
         StartCoroutine(GrabObject(grabColliders[0], objectBody));
     }
 
@@ -164,6 +166,10 @@ public class VR_Hand : MonoBehaviour
 
 
     private void Release(InputAction.CallbackContext context)
+    {
+        ExternalRelease();
+    }
+    public void ExternalRelease()
     {
         if (!GrabEnable)
             return;

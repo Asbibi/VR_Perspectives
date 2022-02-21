@@ -8,14 +8,14 @@ public class VR_Slider : MonoBehaviour
     public UnityEvent onRight, onLeft, onValueChange;
     [SerializeField] private float threshold = 0.1f;
     [SerializeField] private int increment = 5;
-    [SerializeField] private MeshRenderer lightRenderer;
+    [SerializeField] private MeshRenderer lightRenderer = null;
     [SerializeField] private TextMesh textValue;
 
     private bool isRight;
     private float limit;
     private Vector3 zeroPosition;
     private ConfigurableJoint joint;
-    private float lastVal = 0;
+    private int lastVal = 0;
 
     private Material lightMat;
 
@@ -24,7 +24,7 @@ public class VR_Slider : MonoBehaviour
         zeroPosition = transform.localPosition;
         joint = GetComponent<ConfigurableJoint>();
         limit = joint.linearLimit.limit*2;
-        lightMat = lightRenderer.material;
+        lightMat = lightRenderer != null ? lightRenderer.material : null;
     }
 
     private void Update()
@@ -43,13 +43,15 @@ public class VR_Slider : MonoBehaviour
     private void Right()
     {
         isRight = true;
-        lightMat.SetColor("_EmissionColor", Color.green);
+        if (lightMat != null)
+            lightMat.SetColor("_EmissionColor", Color.green);
         onRight.Invoke();
     }
     private void Left()
     {
         isRight = false;
-        lightMat.SetColor("_EmissionColor", Color.red);
+        if (lightMat != null)
+            lightMat.SetColor("_EmissionColor", Color.red);
         onLeft.Invoke();
     }
     private void ChangeVal(int newVal)
@@ -65,5 +67,21 @@ public class VR_Slider : MonoBehaviour
         val += 0.5f;
 
         return Mathf.Clamp(val, 0, 1);
+    }
+
+
+    public int GetLastVal()
+    {
+        return lastVal;
+    }
+    public void SetValue(int _val)
+    {
+        float val_float = (float)_val / (float)increment;
+        val_float -= 0.5f;
+        val_float *= limit;
+
+        Vector3 localPos = transform.localPosition;
+        localPos.x = val_float + zeroPosition.x;
+        transform.localPosition = localPos;
     }
 }

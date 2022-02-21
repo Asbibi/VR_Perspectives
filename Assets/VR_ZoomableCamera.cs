@@ -12,11 +12,11 @@ public class VR_ZoomableCamera : VR_Camera
 
     public TextMesh debugText;
 
-    public override void EditCam(Vector2 _input)
+    public override bool EditCam(Vector2 _input)
     {
         float _y = _input.y;
         if (Mathf.Abs(_y) < 0.05f)
-            return;
+            return false;
 
         dist -= _y * step * Time.deltaTime;
         if (dist < minDist)
@@ -26,5 +26,6 @@ public class VR_ZoomableCamera : VR_Camera
 
         transform.localPosition = Vector3.back * dist;
         debugText.text = dist.ToString();
+        return false;
     }
 }

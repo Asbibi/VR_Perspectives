@@ -11,9 +11,10 @@ public class VR_Lever : MonoBehaviour
     [SerializeField] private MeshRenderer lightRenderer;
     [SerializeField] private TextMesh textValue;
 
+    [SerializeField] private bool onlyOnce = false;
+
     private bool isRight;
     private float limit;
-    private Vector3 zeroPosition;
     private HingeJoint joint;
     private float lastVal = 0;
 
@@ -21,7 +22,6 @@ public class VR_Lever : MonoBehaviour
 
     private void Start()
     {
-        zeroPosition = transform.localPosition;
         joint = GetComponent<HingeJoint>();
         limit = joint.limits.max * 2;
         lightMat = lightRenderer.material;
@@ -29,6 +29,9 @@ public class VR_Lever : MonoBehaviour
 
     private void Update()
     {
+        if (onlyOnce && isRight)
+            return;
+
         float val = GetValue();
         if (!isRight && val + threshold >= 1)
             Right();

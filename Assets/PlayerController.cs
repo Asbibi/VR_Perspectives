@@ -105,6 +105,12 @@ public class PlayerController : MonoBehaviour
         if (isLocomotionBlocked)
             OnBlockLocomotion(obj);
 
+        toogleEditCam();
+        if (isEditingCamera)
+            ComputeEditCam(Vector2.zero);
+    }
+    private void toogleEditCam()
+    {
         moveProvider.enabled = isEditingCamera;
         isEditingCamera = !isEditingCamera;
         editCamHandUI.SetActive(isEditingCamera);
@@ -132,10 +138,15 @@ public class PlayerController : MonoBehaviour
     }
     private void ComputeEditCam(InputAction.CallbackContext context)
     {
+        ComputeEditCam(context.ReadValue<Vector2>());
+    }
+    private void ComputeEditCam(Vector2 value)
+    {
         if (!isEditingCamera)
             return;
 
-        projectorCameras[selectedCam].EditCam(context.ReadValue<Vector2>());
+        if (projectorCameras[selectedCam].EditCam(value))
+            toogleEditCam();
     }
 
     private void checkIsGrounded()
